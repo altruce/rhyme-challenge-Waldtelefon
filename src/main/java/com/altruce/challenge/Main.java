@@ -8,11 +8,11 @@ public class Main {
 
     static ArrayList<String> rhymeList = new ArrayList<>();
     static JSONObject rhymes;
-    static String completedRhymes;
+
 
     public static void main(final String[] args) {
         try {
-            completedRhymes = "";
+            String completedRhymes = "";
             JSONReader jsonReader = new JSONReader();
             rhymes = jsonReader.readFile("src/main/resources/rhymes.json");
             //
@@ -22,7 +22,7 @@ public class Main {
 
             // even if you created a fancy export / illustration from the completed rhymes
             // we need this print to run the automated grading test
-            versesIntoString(rhymes);
+            completedRhymes = versesIntoString(rhymes);
             System.out.println(completedRhymes);
 
         } catch (Exception e) {
@@ -50,8 +50,8 @@ public class Main {
 
     public static String replaceEmptyRhyme(String key, String lineToReplace) {
         String cleanLine = lineToReplace.substring(0, lineToReplace.lastIndexOf(" "));
-        if (key.endsWith(",")){
-            key = key.substring(0, key.length() -1 );
+        if (key.endsWith(",")) {
+            key = key.substring(0, key.length() - 1);
         }
         return cleanLine + " " + rhymes.get(key);
     }
@@ -80,10 +80,12 @@ public class Main {
         return verse;
     }
 
-    public static void versesIntoString(String rhymes){
+    public static String versesIntoString(String rhymes) {
         ArrayList<String> verse = new ArrayList<>(verseBuilder(rhymeSplitter(rhymes)));
+            String completedRhymes = "";
         for (String line : verse) {
             completedRhymes = completedRhymes + "\n" + line;
         }
+        return completedRhymes;
     }
 }
