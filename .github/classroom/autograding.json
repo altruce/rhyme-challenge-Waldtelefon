@@ -1,11 +1,11 @@
 {
   "tests": [
     {
-      "name": "Samples",
+      "name": "Run gradle tests",
       "setup": "gradle dependencies",
-      "run": "gradle run",
-      "input": "\"Als ich aufsah\\n war niemand mehr _.\\n\\nEs war, als hätt' der Himmel\\n die Erde still geküsst,\\nDass sie im _\\nVon Ihm nun träumen _.\\n\\nDie Luft ging durch die Felder,\\n Die Ähren wogten sacht,\\n Es rauschten leis' die _\\nSo sternklar war die _.\"",
-      "output": "Als ich aufsah\r\nwar niemand mehr da\r\n\r\nEs war, als hätt der Himmel\r\ndie Erde still geküsst,\r\nDass sie im Blütenschimmer\r\nVon Ihm nun träumen müsst\r\n\r\nDie Luft ging durch die Felder,\r\nDie Ähren wogten sacht,\r\nEs rauschten leis die Wälder\r\nSo sternklar war die Waldesnacht",
+      "run": "gradle test",
+      "input": "",
+      "output": "",
       "comparison": "included",
       "timeout": 10,
       "points": null
