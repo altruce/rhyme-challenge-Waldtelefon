@@ -17,13 +17,15 @@ public class Main {
             rhymes = jsonReader.readFile("src/main/resources/rhymes.json");
             //
             String rhymes = "Als ich aufsah\nwar niemand mehr _.\n\nEs war, als hätt' der Himmel\ndie Erde still geküsst,\nDass sie im _\nVon Ihm nun träumen _.\n\nDie Luft ging durch die Felder,\nDie Ähren wogten sacht,\nEs rauschten leis' die _\nSo sternklar war die _.";
+            String rhymesTest = cleanBulk(String.join(" ", args));
+//            System.out.println(rhymesTest);
+//            System.out.println(rhymes);
 
             // TODO - export / illustrate rhymes
 
             // even if you created a fancy export / illustration from the completed rhymes
             // we need this print to run the automated grading test
-//            completedRhymes = versesIntoString(String.join(" ", args));
-            completedRhymes = versesIntoString(rhymeSplitter(rhymes));
+            completedRhymes = versesIntoString(rhymeSplitter(rhymesTest));
 
             System.out.println(completedRhymes);
 
@@ -36,7 +38,7 @@ public class Main {
 
     public static ArrayList<ArrayList<String>> rhymeSplitter(String allRhymes) {
         ArrayList<ArrayList<String>> allVerses = new ArrayList<>();
-        ArrayList<String> aaa = new ArrayList<>(List.of(allRhymes.split("\n\n")));
+        ArrayList<String> aaa = new ArrayList<>(List.of(allRhymes.split("\\\\n\\\\n")));
 
         for (String unSplitVerse : aaa) {
             ArrayList<String> bbb = new ArrayList<>(getOneVerse(unSplitVerse));
@@ -53,7 +55,7 @@ public class Main {
     }
 
     public static ArrayList<String> getOneVerse(String unSplitVerse) {
-        return new ArrayList<>(List.of(unSplitVerse.split("\n")));
+        return new ArrayList<>(List.of(unSplitVerse.split("\\\\n")));
     }
 
     public static String replaceEmptyRhyme(String key, String lineToReplace) {
@@ -101,6 +103,16 @@ public class Main {
             completedRhymes = completedRhymes + "\n";
         }
         return completedRhymes;
+    }
+
+    public static String cleanBulk(String unCleanedString) {
+        if (unCleanedString.endsWith("]")){
+            unCleanedString = unCleanedString.substring(0, unCleanedString.length() - 1);
+        }
+        if (unCleanedString.startsWith("[")){
+            unCleanedString = unCleanedString.substring(1);
+        }
+        return unCleanedString;
     }
 
 }
