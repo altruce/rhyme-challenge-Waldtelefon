@@ -22,7 +22,9 @@ public class Main {
 
             // even if you created a fancy export / illustration from the completed rhymes
             // we need this print to run the automated grading test
-            completedRhymes = versesIntoString(rhymes);
+//            completedRhymes = versesIntoString(String.join(" ", args));
+            completedRhymes = versesIntoString(rhymeSplitter(rhymes));
+
             System.out.println(completedRhymes);
 
         } catch (Exception e) {
@@ -32,20 +34,26 @@ public class Main {
     }
 
 
-    public static ArrayList<String> rhymeSplitter(String allRhymes) {
-        ArrayList<String> bbb = new ArrayList<>(Arrays.asList(allRhymes.split("\n")));
+    public static ArrayList<ArrayList<String>> rhymeSplitter(String allRhymes) {
+        ArrayList<ArrayList<String>> allVerses = new ArrayList<>();
+        ArrayList<String> aaa = new ArrayList<>(List.of(allRhymes.split("\n\n")));
 
-        Iterator<String> iterator = bbb.iterator();
-        String temp;
-        while (iterator.hasNext()) {
-            temp = iterator.next();
-            if (temp.equals("")) {
-                iterator.remove();
-            } else {
-                rhymeList.add(sanitizeLine(temp));
+        for (String unSplitVerse : aaa) {
+            ArrayList<String> bbb = new ArrayList<>(getOneVerse(unSplitVerse));
+            ArrayList<String> ccc = new ArrayList<>();
+            for (String line : bbb) {
+                line = sanitizeLine(line);
+                ccc.add(line);
             }
+            ArrayList<String> ddd = verseBuilder(ccc);
+            allVerses.add(ddd);
         }
-        return rhymeList;
+
+        return allVerses;
+    }
+
+    public static ArrayList<String> getOneVerse(String unSplitVerse) {
+        return new ArrayList<>(List.of(unSplitVerse.split("\n")));
     }
 
     public static String replaceEmptyRhyme(String key, String lineToReplace) {
@@ -57,10 +65,14 @@ public class Main {
     }
 
     public static String sanitizeLine(String line) {
+        if (line.endsWith("]")) {
+            line = line.substring(0, line.length() - 1);
+        }
         if (line.endsWith(".")) {
             return line.substring(0, line.length() - 1);
         } else return line;
     }
+
 
     public static String lastWordOfRhyme(String line) {
         return line.substring(line.lastIndexOf(" ") + 1);
@@ -80,12 +92,15 @@ public class Main {
         return verse;
     }
 
-    public static String versesIntoString(String rhymes) {
-        ArrayList<String> verse = new ArrayList<>(verseBuilder(rhymeSplitter(rhymes)));
-            String completedRhymes = "";
-        for (String line : verse) {
+    public static String versesIntoString(ArrayList<ArrayList<String>> allVerses) {
+        String completedRhymes = "";
+        for (ArrayList<String> verse : allVerses) {
+            for (String line : verse){
             completedRhymes = completedRhymes + "\n" + line;
+            }
+            completedRhymes = completedRhymes + "\n";
         }
         return completedRhymes;
     }
+
 }
